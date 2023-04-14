@@ -1,8 +1,8 @@
-function Box({ style, size, className = '', ...otherProps }) {
+function Box({ style, size, ...otherProps }) {
 	const sizeClassName = size ? `box--${size}` : '';
 	return (
 		<div
-			className={`box ${className}${sizeClassName}`.trim()}
+			className={`box ${sizeClassName}`.trim()}
 			style={{ fontSize: '25px', ...style }}
 			{...otherProps}
 		/>
