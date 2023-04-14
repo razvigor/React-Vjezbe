@@ -1,7 +1,8 @@
-function Box({ style, className = '', ...otherProps }) {
+function Box({ style, size, className = '', ...otherProps }) {
+	const sizeClassName = size ? `box--${size}` : '';
 	return (
 		<div
-			className={`box ${className}`}
+			className={`box ${className}${sizeClassName}`.trim()}
 			style={{ fontSize: '25px', ...style }}
 			{...otherProps}
 		/>
@@ -11,13 +12,13 @@ function Box({ style, className = '', ...otherProps }) {
 function App() {
 	return (
 		<section className='boxes'>
-			<Box className='box--small' style={{ backgroundColor: 'green' }}>
+			<Box size='small' style={{ backgroundColor: 'green' }}>
 				Small green box
 			</Box>
-			<Box className='box--medium' style={{ backgroundColor: 'orange' }}>
+			<Box size='medium' style={{ backgroundColor: 'orange' }}>
 				Middle orange box
 			</Box>
-			<Box className='box--large' style={{ backgroundColor: 'blue' }}>
+			<Box size='large' style={{ backgroundColor: 'blue' }}>
 				Big blue box
 			</Box>
 			<Box>Box without properties</Box>
