@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>React.js Start</title>
+		<script
+			src="https://unpkg.com/react@18/umd/react.development.js"
+			crossorigin
+		></script>
+		<script
+			src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+			crossorigin
+		></script>
+	</head>
+	<body>
+		<div id="root"></div>
+
+		<script type="module">
+			const rootElement = document.getElementById('root');
+			// const element = document.createElement('div');
+			// element.textContent = 'Helo World';
+			// element.className = 'container';
+			// root.append(element);
+			const helloElement = React.createElement('span', null, 'Hello');
+			const worldElement = React.createElement('span', { children: 'World' });
+			const element = React.createElement(
+				'div',
+				{
+					className: 'container',
+				},
+				helloElement,
+				' ',
+				worldElement
+			);
+			const root = ReactDOM.createRoot(rootElement);
+			root.render(element);
+		</script>
+	</body>
+</html>
