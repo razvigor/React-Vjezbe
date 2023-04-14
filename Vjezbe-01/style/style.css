@@ -1,0 +1,29 @@
+.boxes {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	row-gap: 12px;
+}
+.box {
+	border: 1px solid #333;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+	font-size: 25px;
+}
+.box--large {
+	width: 360px;
+	height: 360px;
+	color: white;
+}
+.box--medium {
+	width: 270px;
+	height: 270px;
+	color: black;
+}
+.box--small {
+	width: 180px;
+	height: 180px;
+	color: white;
+}
