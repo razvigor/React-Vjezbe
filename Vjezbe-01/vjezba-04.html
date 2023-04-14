@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Prop Types</title>
+		<script
+			src="https://unpkg.com/react@18/umd/react.development.js"
+			crossorigin
+		></script>
+		<script
+			src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+			crossorigin
+		></script>
+		<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+		<script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
+	</head>
+	<body>
+		<div id="root"></div>
+
+		<script type="text/babel">
+			function Hello({ subject, greeting }) {
+				return (
+					<div className='box'>
+						{greeting}, {subject}
+					</div>
+				);
+			}
+			Hello.propTypes = {
+				subject: PropTypes.string.isRequired,
+				greeting: PropTypes.string.isRequired,
+			};
+
+			const element = (
+				<div className='container'>
+					<Hello greeting='Hello' />
+					<Hello greeting='Goodbye' subject={5} />
+				</div>
+			);
+			const root = ReactDOM.createRoot(document.getElementById('root'));
+			root.render(element);
+		</script>
+	</body>
+</html>
