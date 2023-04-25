@@ -271,11 +271,10 @@ function App() {
 		setUsers(usersData);
 	}, [setUsers]);
 	function deleteUserHandler(e) {
-		console.log(e.target.dataset.id);
 		const filteredUsers = users.filter(
 			(user) => user.id !== Number(e.target.dataset.id)
 		);
-		console.log(filteredUsers);
+
 		setUsers(filteredUsers);
 	}
 	return (
