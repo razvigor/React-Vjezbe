@@ -1,79 +1,99 @@
-const AddTodos = React.memo(({ todo, onTodoChange, onTodoSubmit }) => {
-	console.log('%cRendered AddTodos', 'color: yellow');
+function ExampleOne() {
+	const [directCount, setDirectCount] = React.useState(0);
+	const [callbackCount, setCallbackCount] = React.useState(0);
+
+	const increaseDirect = () => {
+		setDirectCount(directCount + 1);
+		console.log('increaseDirect', directCount);
+	};
+	const increaseCallback = () => {
+		setCallbackCount((previousValue) => previousValue + 1);
+		console.log('increaseCallback', callbackCount);
+	};
+
+	console.log('Re-render log', {
+		directCount,
+		callbackCount,
+	});
+
+	React.useEffect(() => {
+		const interval = setInterval(() => {
+			increaseDirect();
+			increaseCallback();
+		}, 3000);
+
+		return () => clearInterval(interval);
+	}, []);
+
 	return (
 		<div>
-			<form onSubmit={onTodoSubmit}>
-				<label htmlFor='todo'>Todo: </label>
-				<input
-					type='text'
-					id='todo'
-					name='todo'
-					value={todo}
-					onChange={onTodoChange}
-				/>{' '}
-				<button type='submit'>Add Todo</button>
-			</form>
+			Direct Count: {directCount} / Callback Count: {callbackCount}
 		</div>
 	);
-});
+}
 
-const IncrementNumber = React.memo(({ num, onNumClick }) => {
-	console.log('%cRendered IncrementNumber', 'color: green');
+function ExampleTwo() {
+	const [directCount, setDirectCount] = React.useState(0);
+	const [callbackCount, setCallbackCount] = React.useState(0);
+
+	const increaseDirect = () => {
+		setDirectCount(directCount + 1);
+	};
+	const increaseCallback = () => {
+		setCallbackCount((previousValue) => previousValue + 1);
+	};
+
+	console.log('Re-render log', {
+		directCount,
+		callbackCount,
+	});
+
+	const handleClick = () => {
+		increaseDirect();
+		increaseCallback();
+	};
+
 	return (
 		<div>
-			<button onClick={onNumClick}>{num}</button>
+			<div>
+				<div>direct: {directCount}</div>
+				<div>callback: {callbackCount}</div>
+			</div>
+			<button onClick={handleClick}>click me!</button>
 		</div>
 	);
-});
+}
+function ExampleThree() {
+	const [isOpen, setIsOpen] = React.useState(true);
 
+	const toggle = () => {
+		setIsOpen((prev) => !prev);
+	};
+
+	return (
+		<div>
+			{isOpen && (
+				<div
+					style={{
+						padding: 50,
+						background: 'lightgreen',
+						marginBottom: 20,
+					}}
+				>
+					I am open!
+				</div>
+			)}
+			<button onClick={toggle}>Close!</button>
+		</div>
+	);
+}
 function App() {
-	console.log('%cRendered App', 'color: red');
-	const [todos, setTodos] = React.useState([]);
-	const [todo, setTodo] = React.useState('');
-	const [num, setNum] = React.useState(0);
-
-	// function todoChange(e) {
-	// 	setTodo(e.target.value);
-	// }
-	// function todoSubmit(e) {
-	// 	e.preventDefault();
-	// 	setTodos((t) => [...t, todo]);
-	// }
-	// function increment() {
-	// 	setNum((n) => n + 1);
-	// }
-
-	const todoChange = React.useCallback(
-		(e) => {
-			setTodo(e.target.value);
-		},
-		[setTodo]
-	);
-
-	const todoSubmit = React.useCallback(
-		(e) => {
-			e.preventDefault();
-			setTodos((t) => [...t, todo]);
-		},
-		[setTodos, todo]
-	);
-	const increment = React.useCallback(() => {
-		setNum((n) => n + 1);
-	}, [setNum]);
 	return (
-		<div className='App'>
-			<AddTodos
-				todo={todo}
-				onTodoChange={todoChange}
-				onTodoSubmit={todoSubmit}
-			/>
-			<IncrementNumber num={num} onNumClick={increment} />
-			<ul>
-				{todos.map((todo, key) => (
-					<li key={key}>{todo}</li>
-				))}
-			</ul>
-		</div>
+		<React.Fragment>
+			{/*<ExampleOne />*/}
+			{/*<ExampleTwo />*/}
+			<ExampleThree />
+		</React.Fragment>
 	);
 }
 
