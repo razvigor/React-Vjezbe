@@ -9,11 +9,17 @@ function Square({ value, onSquareClick }) {
 }
 
 function Board() {
-	const [squares, setSquares] = React.useState(initialSquares);
+	const [squares, setSquares] = React.useState(
+		() => JSON.parse(localStorage.getItem('squares')) || initialSquares
+	);
 
 	const nextValue = calculateNextvalue(squares);
 	const winner = calculateWinner(squares);
 	const status = calculateStatus(winner, squares, nextValue);
+
+	React.useEffect(() => {
+		localStorage.setItem('squares', JSON.stringify(squares));
+	}, [squares]);
 
 	function calculateStatus(winner, squares, nextValue) {
 		return winner
