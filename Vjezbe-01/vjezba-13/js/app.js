@@ -1,78 +1,108 @@
-const AddTodos = React.memo(({ todo, onTodoChange, onTodoSubmit }) => {
-	console.log('%cRendered AddTodos', 'color: yellow');
+function Product({
+	title,
+	description,
+	price,
+	rating,
+	brand,
+	category,
+	thumbnail,
+}) {
 	return (
-		<div>
-			<form onSubmit={onTodoSubmit}>
-				<label htmlFor='todo'>Todo: </label>
-				<input
-					type='text'
-					id='todo'
-					name='todo'
-					value={todo}
-					onChange={onTodoChange}
-				/>{' '}
-				<button type='submit'>Add Todo</button>
-			</form>
+		<article className='product'>
+			<div className='image'>
+				<img src={thumbnail} alt={title} />
+			</div>
+			<StarRating rating={Math.round(rating)} />
+			<h2>{title}</h2>
+			<div className='brand'>
+				<span>{brand}</span> / <span>{category}</span>
+			</div>
+			<div className='price'>
+				<p>{price}$</p>
+			</div>
+			<div className='description'>
+				<p>{description}</p>
+			</div>
+			<button type='button'>Add to Cart</button>
+		</article>
+	);
+}
+const StarRating = ({ rating }) => {
+	return (
+		<div className='star-rating'>
+			{[...Array(5)].map((star, index) => {
+				index += 1;
+				return (
+					<button
+						type='button'
+						key={index}
+						className={index <= rating ? 'on' : 'off'}
+					>
+						<span className='star'>&#9733;</span>
+					</button>
+				);
+			})}
 		</div>
 	);
-});
-
-const IncrementNumber = React.memo(({ num, onNumClick }) => {
-	console.log('%cRendered IncrementNumber', 'color: green');
+};
+function Loading() {
 	return (
-		<div>
-			<button onClick={onNumClick}>{num}</button>
+		<div className='loader' style={{ fontSize: '45px' }}>
+			Loading...
 		</div>
 	);
-});
+}
 
 function App() {
-	console.log('%cRendered App', 'color: red');
-	const [todos, setTodos] = React.useState([]);
-	const [todo, setTodo] = React.useState('');
-	const [num, setNum] = React.useState(0);
+	const url = 'https://dummyjson.com/';
+	const [products, setProducts] = React.useState(null);
+	const [error, setError] = React.useState('');
+	const [loading, setLoading] = React.useState(true);
 
-	// function todoChange(e) {
-	// 	setTodo(e.target.value);
-	// }
-	// function todoSubmit(e) {
-	// 	e.preventDefault();
-	// 	setTodos((t) => [...t, todo]);
-	// }
-	// function increment() {
-	// 	setNum((n) => n + 1);
-	// }
+	React.useEffect(() => {
+		async function fetchProducts() {
+			try {
+				const res = await fetch(url + 'products');
+				const data = await res.json();
+				setProducts(data.products);
+				setLoading(false);
+			} catch (err) {
+				setError(err.message);
+				setLoading(false);
+			}
+		}
+		fetchProducts();
+	}, []);
 
-	const todoChange = React.useCallback(
-		(e) => {
-			setTodo(e.target.value);
-		},
-		[setTodo]
-	);
+	if (error) {
+		return (
+			<div style={{ color: 'red' }}>
+				<p>{error}</p>
+			</div>
+		);
+	}
 
-	const todoSubmit = React.useCallback(
-		(e) => {
-			e.preventDefault();
-			setTodos((t) => [...t, todo]);
-		},
-		[setTodos, todo]
-	);
-	const increment = React.useCallback(() => {
-		setNum((n) => n + 1);
-	}, [setNum]);
 	return (
 		<div className='App'>
-			<AddTodos
-				todo={todo}
-				onTodoChange={todoChange}
-				onTodoSubmit={todoSubmit}
-			/>
-			<IncrementNumber num={num} onNumClick={increment} />
-			<ul>
-				{todos.map((todo, key) => (
-					<li key={key}>{todo}</li>
-				))}
-			</ul>
+			<h1>Shop</h1>
+			<div className='products'>
+				{loading ? (
+					<Loading />
+				) : products ? (
+					products.map((product) => (
+						<Product
+							key={product.id}
+							title={product.title}
+							description={product.description}
+							price={product.price}
+							rating={product.rating}
+							brand={product.brand}
+							category={product.category}
+							thumbnail={product.thumbnail}
+						/>
+					))
+				) : null}
+			</div>
 		</div>
 	);
 }
