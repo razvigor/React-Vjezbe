@@ -8,13 +8,21 @@ function CountProvider({ children }) {
 	);
 }
 
+function useCountContext() {
+	const context = React.useContext(CountContext);
+	if (!context) {
+		throw new Error('useCount must be used within the CountProvider');
+	}
+	return context;
+}
+
 function CounterDisplay() {
-	const [count] = React.useContext(CountContext);
+	const [count] = useCountContext();
 	return <div>{`The current count is ${count}`}</div>;
 }
 
 function Counter() {
-	const [, setCount] = React.useContext(CountContext);
+	const [, setCount] = useCountContext();
 	return (
 		<button type='button' onClick={() => setCount((prev) => prev + 1)}>
 			Increment
