@@ -5,17 +5,17 @@ const initalCount = {
 function countReducer(state, action) {
 	//console.log(action);
 	switch (action.type) {
-		case 'increment':
+		case 'INCREMENT':
 			return {
 				...state,
 				count: state.count + action.step,
 			};
-		case 'decrement':
+		case 'DECREMENT':
 			return {
 				...state,
 				count: state.count - action.step,
 			};
-		case 'reset':
+		case 'RESET':
 			return initalCount;
 		default:
 			throw new Error(`Unhandled action type: ${action.type}`);
@@ -29,18 +29,18 @@ function Counter({ step = 2 }) {
 			<h2>{state.count}</h2>
 			<button
 				type='button'
-				onClick={() => dispatch({ type: 'increment', step })}
+				onClick={() => dispatch({ type: 'INCREMENT', step })}
 			>
-				Increment
+				INCREMENT
 			</button>
 			<button
 				type='button'
-				onClick={() => dispatch({ type: 'decrement', step })}
+				onClick={() => dispatch({ type: 'DECREMENT', step })}
 			>
-				Decrement
+				DECREMENT
 			</button>
-			<button type='button' onClick={() => dispatch({ type: 'reset' })}>
-				Reset
+			<button type='button' onClick={() => dispatch({ type: 'RESET' })}>
+				RESET
 			</button>
 		</div>
 	);
