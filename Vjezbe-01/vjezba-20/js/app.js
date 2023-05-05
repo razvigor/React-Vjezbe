@@ -10,31 +10,26 @@ function App() {
 	const [isPending, startTransition] = React.useTransition();
 
 	React.useLayoutEffect(() => {
-		async function fetchUsers() {
-			const res = await fetch(url + 'users');
-			const data = await res.json();
-			//console.log(data.users);
-			setUsers(data.users);
-		}
 		if (refComp.current) {
-			fetchUsers();
+			setUsers(Array(10000).fill({ name: 'Sasa' }));
 		}
 		return () => {
 			refComp.current = false;
 		};
 	}, []);
 
-	// function handleChange(e) {
-	// 	setName(e.target.value);
-	// 	setList(largeList.filter((item) => item.name.includes(e.target.value)));
-	// }
-
 	function handleChange(e) {
 		setName(e.target.value);
-		startTransition(() => {
-			setList(users.filter((item) => item.firstName.includes(e.target.value)));
-		});
+		setList(users.filter((item) => item.name.includes(e.target.value)));
 	}
+
+	// function handleChange(e) {
+	// 	setName(e.target.value);
+
+	// 	startTransition(() => {
+	// 		setList(users.filter((item) => item.name.includes(e.target.value)));
+	// 	});
+	// }
 	return (
 		<div className='App'>
 			<h1>App</h1>
@@ -44,10 +39,8 @@ function App() {
 					<div>Loading...</div>
 				) : (
 					<ul>
-						{list.map((item) => (
-							<li key={item.id}>
-								{item.firstName + ' ' + item.lastName + ' - ' + item.username}
-							</li>
+						{list.map((item, key) => (
+							<li key={key}>{item.name}</li>
 						))}
 					</ul>
 				)}
