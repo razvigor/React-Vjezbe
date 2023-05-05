@@ -11,7 +11,11 @@ function App() {
 
 	React.useLayoutEffect(() => {
 		if (refComp.current) {
-			setUsers(Array(10000).fill({ name: 'Sasa' }));
+			setUsers(
+				Array.from({ length: 10000 }, (_, i) => {
+					return { name: 'Sasa-' + (i + 1) };
+				})
+			);
 		}
 		return () => {
 			refComp.current = false;
