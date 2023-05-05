@@ -1,32 +1,48 @@
-const CountContext = React.createContext();
+const initalCount = {
+	count: 0,
+};
 
-function CountProvider({ children }) {
-	const [count, setCount] = React.useState(0);
-	const value = [count, setCount];
-	return (
-		<CountContext.Provider value={value}>{children}</CountContext.Provider>
-	);
-}
-
-function useCountContext() {
-	const context = React.useContext(CountContext);
-	if (!context) {
-		throw new Error('useCount must be used within the CountProvider');
+function countReducer(state, action) {
+	//console.log(action);
+	switch (action.type) {
+		case 'INCREMENT':
+			return {
+				...state,
+				count: state.count + action.step,
+			};
+		case 'DECREMENT':
+			return {
+				...state,
+				count: state.count - action.step,
+			};
+		case 'RESET':
+			return initalCount;
+		default:
+			throw new Error(`Unhandled action type: ${action.type}`);
 	}
-	return context;
 }
 
-function CounterDisplay() {
-	const [count] = useCountContext();
-	return <div>{`The current count is ${count}`}</div>;
-}
-
-function Counter() {
-	const [, setCount] = useCountContext();
+function Counter({ step = 2 }) {
+	const [state, dispatch] = React.useReducer(countReducer, initalCount);
 	return (
-		<button type='button' onClick={() => setCount((prev) => prev + 1)}>
-			Increment
-		</button>
+		<div className='counter'>
+			<h2>{state.count}</h2>
+			<button
+				type='button'
+				onClick={() => dispatch({ type: 'INCREMENT', step })}
+			>
+				INCREMENT
+			</button>
+			<button
+				type='button'
+				onClick={() => dispatch({ type: 'DECREMENT', step })}
+			>
+				DECREMENT
+			</button>
+			<button type='button' onClick={() => dispatch({ type: 'RESET' })}>
+				RESET
+			</button>
+		</div>
 	);
 }
 
@@ -34,14 +50,10 @@ function App() {
 	return (
 		<div className='App'>
 			<h1>App</h1>
-			<CountProvider>
-				<CounterDisplay />
-				<Counter />
-			</CountProvider>
+			<Counter />
 		</div>
 	);
 }
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 	<React.StrictMode>
