@@ -1,5 +1,3 @@
-const url = 'https://dummyjson.com/';
-
 function App() {
 	const refComp = React.useRef(true);
 	const [users, setUsers] = React.useState(null);
