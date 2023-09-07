@@ -1,3 +1,10 @@
 export const SHOW_HIDE_CART = 'SHOW_HIDE_CART';
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const REMOVE_ITEM = 'REMOVE_ITEM';
+export const INCREMENT_QTY = 'INCREMENT_QTY';
+export const DECREMENT_QTY = 'DECREMENT_QTY';
+export const ADD_QTY = 'ADD_QTY';
+export const CLEAR_CART = 'CLEAR_CART';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOG_OUT = 'LOG_OUT';
+export const LOGIN_ERROR = 'LOGIN_ERROR';

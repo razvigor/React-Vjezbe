@@ -21,6 +21,7 @@ const Categories = ({ setState }) => {
 	return (
 		<div>
 			<h2 className='text-2xl md:text-3xl mb-6'>Categories</h2>
+			{isFetching ? <div className='text-2xl'>Updating...</div> : null}
 			<ul className='flex flex-col gap-y-3'>
 				{data.map((item, key) => (
 					<li key={key}>
@@ -30,7 +31,6 @@ const Categories = ({ setState }) => {
 					</li>
 				))}
 			</ul>
-			<div>{isFetching ? 'Updating...' : ''}</div>
 		</div>
 	);
 };

@@ -9,7 +9,9 @@ const Layout = () => {
 		<>
 			<Navbar />
 			<Cart />
-			<Outlet />
+			<main className='min-h-screen pt-[96px]'>
+				<Outlet />
+			</main>
 			<ReactQueryDevtools initialIsOpen />
 			<Footer />
 		</>

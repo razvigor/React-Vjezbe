@@ -6,6 +6,9 @@ import Layout from './Layout';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import ShopItem from './pages/ShopItem';
+import ErrorPage from './pages/404';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 const queryClient = new QueryClient();
 
@@ -21,6 +24,9 @@ function App() {
 								<Route index element={<Shop />} />
 								<Route path=':id' element={<ShopItem />} />
 							</Route>
+							<Route path='login' element={<Login />} />
+							<Route path='signup' element={<Signup />} />
+							<Route path='*' element={<ErrorPage />} />
 						</Route>
 					</Routes>
 				</QueryClientProvider>

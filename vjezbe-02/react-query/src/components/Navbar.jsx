@@ -1,13 +1,21 @@
 import { useContext } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import CartContext from '../context/cart/CartContext';
+import UserContext from '../context/user/UserContext';
 import { ShoppingCartIcon } from '@heroicons/react/24/outline';
 
 const Navbar = () => {
 	const { cartItems, showHideCart } = useContext(CartContext);
+	const { token, logOut } = useContext(UserContext);
+	const navigate = useNavigate();
+
+	const logoutHandler = () => {
+		logOut();
+		navigate('/login');
+	};
 	return (
-		<nav className='bg-gray-900'>
-			<div className='container mx-auto flex justify-between h-24 items-center'>
+		<nav className='bg-gray-900 fixed left-0 top-0 w-full z-40'>
+			<div className='container mx-auto flex justify-between h-24 items-center px-4'>
 				<div className='text-slate-200'>
 					<Link to='/'>Logo</Link>
 				</div>
@@ -20,7 +28,7 @@ const Navbar = () => {
 									? 'text-red-500'
 									: isActive
 									? 'text-green-500'
-									: 'text-gray-200'
+									: 'text-gray-200 hover:text-green-500'
 							}
 						>
 							Home
@@ -34,11 +42,35 @@ const Navbar = () => {
 									? 'text-red-500'
 									: isActive
 									? 'text-green-500'
-									: 'text-gray-200'
+									: 'text-gray-200 hover:text-green-500'
 							}
 						>
 							Shop
 						</NavLink>
+					</li>
+					<li>
+						{!token ? (
+							<NavLink
+								to='login'
+								className={({ isActive, isPending }) =>
+									isPending
+										? 'text-red-500'
+										: isActive
+										? 'text-green-500'
+										: 'text-gray-200 hover:text-green-500'
+								}
+							>
+								Login
+							</NavLink>
+						) : (
+							<button
+								type='button'
+								onClick={logoutHandler}
+								className='text-gray-200 hover:text-green-500'
+							>
+								Logout
+							</button>
+						)}
 					</li>
 				</ul>
 				<div className='nav__right'>

@@ -25,61 +25,65 @@ const Shop = () => {
 			</div>
 		);
 	return (
-		<div className='container mx-auto my-16 flex flex-wrap justify-between items-start'>
+		<div className='container mx-auto my-16 px-4 flex flex-wrap justify-between items-start'>
 			<aside className='w-full lg:w-[20%]'>
 				<Categories setState={setCategory} />
 			</aside>
 			<section className='w-full lg:w-[75%]'>
 				{isLoading ? (
-					<div className='container mx-auto'>Loading...</div>
+					<div className='container mx-auto text-2xl'>Loading...</div>
 				) : (
 					<>
 						<h1 className='text-2xl md:text-4xl mb-6'>
 							Shop - <span className='uppercase text-2xl'>{category}</span>
 						</h1>
-						<div className='flex flex-wrap justify-between items-start gap-y-6'>
-							{data.map((item) => (
-								<article
-									className='flex flex-col gap-y-5 border rounded-lg w-full md:w-[49%] lg:w-[32%] p-4'
-									key={item.id}
-								>
-									<div className='w-full'>
-										<img src={item.thumbnail} alt={item.title} />
-									</div>
-									<div className='flex flex-col justify-between flex-1'>
-										<div className='flex flex-col justify-between items-start'>
-											<h2 className='text-xl'>{item.title}</h2>
-											<p className='text-lg'>{item.brand}</p>
+						{isFetching ? (
+							<div className='text-2xl'>Updating...</div>
+						) : (
+							<div className='flex flex-wrap justify-between items-start gap-y-6'>
+								{data.map((item) => (
+									<article
+										className='flex flex-col gap-y-5 border rounded-lg w-full md:w-[49%] lg:w-[32%] p-4'
+										key={item.id}
+									>
+										<div className='w-full'>
+											<img src={item.images[0]} alt={item.title} />
 										</div>
-										<div className='flex justify-between items-center my-3'>
-											<span>Price: ${item.price}</span>
-											<span>Rating: {item.rating}</span>
+										<div className='flex flex-col justify-between flex-1'>
+											<div className='flex flex-col justify-between items-start'>
+												<h2 className='text-xl'>{item.title}</h2>
+												<p className='text-lg'>{item.brand}</p>
+											</div>
+											<div className='flex justify-between items-center my-3'>
+												<span>Price: ${item.price}</span>
+												<span>Rating: {item.rating}</span>
+											</div>
+											<div className='flex justify-between items-center'>
+												<Link
+													to={`${item.id}`}
+													className='text-gray-800 flex items-center gap-x-3 group hover:text-green-500 transition-all duration-150'
+												>
+													See More{' '}
+													<span className='relative group-hover:-right-2'>
+														→
+													</span>
+												</Link>
+												<button
+													type='button'
+													className='btn-dark max-w-[120px]'
+													onClick={() => addToCart(item)}
+												>
+													Add To cart
+												</button>
+											</div>
 										</div>
-										<div className='flex justify-between items-center'>
-											<Link
-												to={`${item.id}`}
-												className='text-gray-800 flex items-center gap-x-3 group hover:text-green-500 transition-all duration-150'
-											>
-												See More{' '}
-												<span className='relative group-hover:-right-2'>→</span>
-											</Link>
-											<button
-												type='button'
-												className='p-3 bg-gray-500 rounded-lg text-white hover:bg-gray-700'
-												onClick={() => addToCart(item)}
-											>
-												Add To cart
-											</button>
-										</div>
-									</div>
-								</article>
-							))}
-						</div>
+									</article>
+								))}
+							</div>
+						)}
 					</>
 				)}
 			</section>
-
-			<div>{isFetching ? 'Updating...' : ''}</div>
 		</div>
 	);
 };
